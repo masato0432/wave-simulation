@@ -23,8 +23,8 @@ with col2:
 # 描画領域
 plot_area = st.empty()
 
-# アニメーションループ
-while st.session_state.running:
+# 1フレームだけ描画する関数
+def draw_frame():
     x = np.linspace(0, 2 * np.pi, 400)
     y = np.sin(x - st.session_state.phase)
 
@@ -34,9 +34,15 @@ while st.session_state.running:
     ax.set_ylim(-1.5, 1.5)
     ax.set_xlabel("x")
     ax.set_ylabel("y")
-    ax.set_title("正弦波が右方向に移動中…")
+    ax.set_title("正弦波アニメーション")
 
     plot_area.pyplot(fig)
 
+# 実行
+draw_frame()
+
+# アニメーション処理
+if st.session_state.running:
     st.session_state.phase += 0.1
     time.sleep(0.05)
+    st.experimental_rerun()
